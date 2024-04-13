@@ -37,13 +37,14 @@ function getRandomInt(min, max) {
 	return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
 }
 
-vk.updates.on("message_edit", async (ctx, next) => {
-	if (ctx.text != "+") return next();
+// vk.updates.on("message_edit", async (ctx, next) => {
+// 	console.log(ctx)
+// 	if (ctx.text != "+") return next();
 
-	ctx.reply('Думаешь никто не увидит?')
+// 	await ctx.reply('Думаешь никто не увидит?')
 
-	return next();
-});
+// 	return next();
+// });
 vk.updates.on("message_new", async (ctx, next) => {
 	const members = await vk.api.messages.getConversationMembers({
 		peer_id: ctx.peerId,
