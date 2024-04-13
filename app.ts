@@ -35,6 +35,10 @@ function getRandomInt(min, max) {
 
 vk.updates.on("message_edit", async (ctx, next) => {
 	if (ctx.text != "+") return next();
+
+	ctx.reply('Думаешь никто не увидит?')
+
+	return next();
 });
 vk.updates.on("message_new", async (ctx, next) => {
 	const members = await vk.api.messages.getConversationMembers({
