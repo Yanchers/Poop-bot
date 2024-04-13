@@ -26,6 +26,10 @@ const replies = [
 	"Молодец!",
 	"Умничка!",
 	"Неожидал...",
+	"Крутой!",
+	"Йооооо",
+	"Мы все удивлены",
+	"Во дает"
 ];
 function getRandomInt(min, max) {
 	min = Math.ceil(min);
