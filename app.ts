@@ -143,7 +143,7 @@ vk.updates.on("message_new", async (ctx, next) => {
 			ctx.send(sumStr);
 			break;
 		default:
-			console.log(ctx.text);
+			// console.log(ctx.text);
 			break;
 	}
 	return next();
