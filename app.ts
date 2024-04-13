@@ -33,11 +33,20 @@ function getRandomInt(min, max) {
 	return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
 }
 
-vk.updates.on("message_new", async (ctx) => {
+vk.updates.on("message_edit", async (ctx, next) => {
+	if (ctx.text != "+") return next();
+});
+vk.updates.on("message_new", async (ctx, next) => {
 	const members = await vk.api.messages.getConversationMembers({
 		peer_id: ctx.peerId,
 	});
 	switch (ctx.text) {
+		case "/команды":
+			const commands = 
+			`'+' => означает, что ты сходил в туалет\n` +
+			`'/анализ' => узнать, кто сколько раз сходил в туалет и получить крутую статистику`
+			ctx.send(commands)
+			break;
 		case "+":
 			const sender = members.profiles.find((p) => p.id == ctx.senderId);
 			const str = replies[getRandomInt(0, replies.length)];
@@ -48,7 +57,7 @@ vk.updates.on("message_new", async (ctx) => {
 			// ctx.send()
 			break;
 		case "/анализ":
-      await ctx.setActivity();
+			await ctx.setActivity();
 			ctx.send("🚽 Анализирую ваши туалеты... 🕜");
 			var msgs: MessagesMessage[] = [];
 			for (var i = 100; i <= Number.MAX_VALUE; i += 100) {
@@ -62,9 +71,9 @@ vk.updates.on("message_new", async (ctx) => {
 				if (res.count == 0) break;
 				msgs.push(...res.items);
 			}
-      // await fs.writeFile('messages_test.txt', msgs.map(m => m.conversation_message_id + ' | ' + m.text).join('\n'))
+			// await fs.writeFile('messages_test.txt', msgs.map(m => m.conversation_message_id + ' | ' + m.text).join('\n'))
 
-			ctx.send("💯 Онализ окончен 💯");
+			ctx.send("💯 Анализ окончен 💯");
 
 			const summary = members.items
 				.map<UserPoop>((m) => {
@@ -75,9 +84,9 @@ vk.updates.on("message_new", async (ctx) => {
 						console.log("ошибка");
 						return;
 					}
-					const count =
-						msgs.filter((msg) => msg.from_id == m.member_id && msg.text === "+")
-							.length;
+					const count = msgs.filter(
+						(msg) => msg.from_id == m.member_id && msg.text === "+"
+					).length;
 
 					return {
 						firstName: profile.first_name,
@@ -137,14 +146,11 @@ vk.updates.on("message_new", async (ctx) => {
 			console.log(ctx.text);
 			break;
 	}
+	return next();
 });
 
-// getMsgs()
-
-console.log("Starting Poop bot...")
-vk.updates.start().then(() => console.log("Poop bot started")).catch((err) => console.log(err));
-// async function run() {
-
-// }
-
-// run().catch(console.log);
+console.log("Starting Poop bot...");
+vk.updates
+	.start()
+	.then(() => console.log("Poop bot started"))
+	.catch((err) => console.log(err));
