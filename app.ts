@@ -66,7 +66,7 @@ vk.updates.on("message_new", async (ctx, next) => {
 			// ctx.send()
 			break;
 		case "/анализ":
-			await ctx.setActivity();
+			// await ctx.setActivity();
 			ctx.send("🚽 Анализирую ваши туалеты... 🕜");
 			var msgs: MessagesMessage[] = [];
 			for (var i = 100; i <= Number.MAX_VALUE; i += 100) {
@@ -77,11 +77,11 @@ vk.updates.on("message_new", async (ctx, next) => {
 						.map((_, j) => i - 100 + j + 1),
 				});
 
-				if (res.count == 0) break;
+				if (res.count == 0 && i > 300) break; // TODO: this is probably not a good solution. Hope someday i fix it
 				msgs.push(...res.items);
 			}
 			// await fs.writeFile('messages_test.txt', msgs.map(m => m.conversation_message_id + ' | ' + m.text).join('\n'))
-
+			
 			ctx.send("💯 Анализ окончен 💯");
 
 			const summary = members.items
