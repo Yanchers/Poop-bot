@@ -230,7 +230,7 @@ async function handleWeekReport(ctx: MessageContext) {
     console.log('Subscribe week report from chat: ', ctx.chatId);
 
     const job = CronJob.from({
-        cronTime: '* * * * *', // '0 18 * * SUN',
+        cronTime: '0 18 * * SUN', // '* * * * *',
         onTick: () => onWeekReport(ctx.chatId),
         timeZone: 'Europe/Moscow',
         start: true
